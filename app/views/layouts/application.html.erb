@@ -15,8 +15,10 @@
     <div class="row">
       <!-- Sidebar Column -->
       <% if user_signed_in? %>
-      <div class="col-12 col-sm-2 col-xl-2 px-sm-2 px-0 bg-dark d-flex flex-column sticky-top vh-100" id="mainSidebar">
-        <%= render partial: 'layouts/navbar' %>
+      <div class="wrapper">
+        <div class="col-12 col-sm-2 col-xl-2 px-sm-2 px-0 bg-dark d-flex flex-column sticky-top vh-100" id="mainSidebar">
+          <%= render partial: 'layouts/navbar' %>
+        </div>
       </div>
       <% end %>
       <!-- Main Content Column -->
@@ -28,3 +30,22 @@
   </div>
 </body>
 </html>
+
+<style>
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+#mainSidebar {
+  width: 150px; /* Ancho deseado del sidebar */
+}
+
+main {
+  flex: 1; /* Toma el espacio restante */
+  padding: 20px;
+  min-height: 100vh; /* Asegúrate de que el contenido principal tenga suficiente altura */
+}
+
+</style>

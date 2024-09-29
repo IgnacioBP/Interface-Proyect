@@ -1,0 +1,4 @@
+<% user_reaction = tweet.user_tweet_reactions.find_by(user: current_user) %>
+<% if user_reaction %>
+  Tu reacción: <span class="reaction-emoji"><%= user_reaction.reaction_level.emoji %></span>
+<% end %>
