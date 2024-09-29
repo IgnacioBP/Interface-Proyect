@@ -1,47 +1,126 @@
-<div class="d-flex flex-column flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white">
-  <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <span class="fs-5">Quacker</span>
-  </a>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="#" class="nav-link text-white">
-        <i class="fs-5 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link text-white">
-        <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">Inicio</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link text-white">
-        <i class="fs-5 bi-table"></i><span class="ms-1 d-none d-sm-inline">Quacks</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link text-white">
-        <i class="fs-5 bi-bell"></i><span class="ms-1 d-none d-sm-inline">Notificaciones</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link text-white">
-        <i class="fs-5 bi-people"></i><span class="ms-1 d-none d-sm-inline">Seguidores</span>
-      </a>
-    </li>
-  </ul>
-  <div class="dropdown py-sm-4 mt-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="https://github.com/mdo.png" alt="Profile image" width="28" height="28" class="rounded-circle">
-      <span class="d-none d-sm-inline mx-1">Profile</span>
+<div data-controller="sidebar">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white sidebar" id="sidebar" data-sidebar-target="sidebar">
+    <button class="btn btn-outline-light mb-3" data-action="click->sidebar#toggle">
+      <i class="bi bi-list"></i>
+    </button>
+    <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-5 sidebar-text">Quacker</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-      <li><a class="dropdown-item" href="#">New project...</a></li>
-      <li><a class="dropdown-item" href="#">Settings</a></li>
-      <li><a class="dropdown-item" href="#">Profile</a></li>
+    <ul class="nav nav-pills flex-column mb-auto">
       <li>
-        <hr class="dropdown-divider">
+        <a href="/tweets" class="nav-link text-white">
+          <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline sidebar-text">Quacks</span>
+        </a>
       </li>
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
+      <li>
+        <a href="/comments" class="nav-link text-white">
+          <i class="fs-5 bi-bell"></i><span class="ms-1 d-none d-sm-inline sidebar-text">Notificaciones</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <i class="fs-5 bi-people"></i><span class="ms-1 d-none d-sm-inline sidebar-text">Seguidores</span>
+        </a>
+      </li>
     </ul>
+    <div class="dropdown py-sm-4 mt-auto">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="Profile image" width="28" height="28" class="rounded-circle">
+        <span class="d-none d-sm-inline mx-1 sidebar-text">Profile</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <%= link_to 'Sign out', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'dropdown-item' %>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
+
+<style>
+  .wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+  }
+  
+  #mainSidebar.collapsed {
+    width: 80px !important;
+  }
+
+  /* Sidebar */
+  #sidebar {
+    width: 150px;
+    min-height: 100vh;
+    background: #7386D5;
+    color: #f2f0ef;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  #sidebar.collapsed {
+    width: 40px !important;
+  }
+  
+  /* Sidebar Components */
+  #sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+  }
+  
+  /* Links and Hover */
+  #sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    color: #f2f0ef;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  
+  #sidebar ul li a:hover {
+    color: #212529 !important;
+    background: #f2f0ef !important;
+  }
+  
+  /* Collapsed Sidebar Text */
+  #sidebar.collapsed .sidebar-text {
+    display: none !important;
+  }
+  
+  /* Center icons when collapsed */
+  #sidebar.collapsed .nav-link {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+  }
+  
+  #sidebar.collapsed .dropdown-toggle::after {
+    display: none;
+  }
+  
+  #sidebar.collapsed .dropdown-toggle {
+    justify-content: center;
+  }
+  
+  #content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+  }
+  
+  @media (max-width: 768px) {
+    #sidebar {
+      width: 0;
+      margin-left: -250px;
+    }
+    #sidebar.active {
+      margin-left: 0;
+    }
+  }
+</style>

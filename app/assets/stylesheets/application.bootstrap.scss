@@ -1,77 +1,81 @@
-@import "bootstrap";
-
+/* Main Wrapper */
 .wrapper {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
-}
-
-#sidebar {
-  min-width: 250px;
-  max-width: 250px;
-  min-height: 100vh;
-  background: #7386D5;
-  color: #fff;
-  transition: all 0.3s;
-}
-
-#sidebar.active {
-  margin-left: -250px;
-}
-
-#sidebar .sidebar-header {
-  padding: 20px;
-  background: #6d7fcc;
-}
-
-#sidebar ul.components {
-  padding: 20px 0;
-  border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-  color: #fff;
-  padding: 10px;
-}
-
-#sidebar ul li a {
-  padding: 10px;
-  font-size: 1.1em;
-  display: block;
-  color: #fff;
-  text-decoration: none;
-}
-
-#sidebar ul li a:hover {
-  color: #7386D5;
-  background: #fff;
-}
-
-#sidebar ul li.active > a, a[aria-expanded="true"] {
-  color: #fff;
-  background: #6d7fcc;
-}
-
-#content {
-  width: 100%;
-  padding: 20px;
-  min-height: 100vh;
-  transition: all 0.3s;
-}
-
-.sidebar-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 20px;
-  background: #6d7fcc;
-}
-
-@media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+  }
+  
+  /* Sidebar */
   #sidebar {
-    margin-left: -250px;
+    width: 250px;
+    min-height: 100vh;
+    background: #7386D5;
+    color: #fff;
+    transition: width 0.3s ease-in-out;
   }
-  #sidebar.active {
-    margin-left: 0;
+  
+  #sidebar.collapsed {
+    width: 80px;
   }
-}
+  
+  /* Sidebar Header */
+  #sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+  }
+  
+  /* Sidebar Components */
+  #sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+  }
+  
+  /* Links and Hover */
+  #sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s, background 0.3s;
+  }
+  
+  #sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+  }
+  
+  /* Collapsed Link Text */
+  #sidebar .link-text {
+    display: inline-block;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  
+  #sidebar.collapsed .link-text {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  
+  /* Align icon to the center when collapsed */
+  #sidebar.collapsed .nav-link {
+    justify-content: center;
+  }
+  
+  #content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  @media (max-width: 768px) {
+    #sidebar {
+      width: 0;
+      margin-left: -250px;
+    }
+    #sidebar.active {
+      margin-left: 0;
+    }
+  }
+  
