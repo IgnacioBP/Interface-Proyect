@@ -1,22 +1,98 @@
-<%= form_with(model: [@tweet, comment]) do |form| %>
-  <% if comment.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+<div class="tweet-comments-container">
+  <div class="card mb-4">
+    <div class="card-body">
+      <!-- Mostrar el tweet que está siendo comentado -->
+      <h5 class="card-title mb-3">Comentando en el tweet de <%= @tweet.user.full_name %></h5>
+      <div class="tweet-content mb-4">
+        <p><%= @tweet.body %></p>
+        <small class="text-muted"><%= @tweet.created_at.strftime("%d %b %Y, %H:%M") %></small>
+      </div>
 
-      <ul>
-        <% comment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+      <!-- Formulario para crear un comentario -->
+      <%= form_with(model: [@tweet, comment]) do |form| %>
+        <% if comment.errors.any? %>
+          <div class="alert alert-danger">
+            <h6><%= pluralize(comment.errors.count, "error") %> impidió guardar el comentario:</h6>
+            <ul>
+              <% comment.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <div class="form-group">
+          <%= form.label :content, class: "form-label" %>
+          <%= form.text_area :content, class: "form-control", rows: 3 %>
+        </div>
+
+        <div class="text-center mt-4">
+          <%= form.submit "Crear comentario", class: "btn btn-custom" %>
+        </div>
+
+        <!-- Imagen de un pato -->
+        <div class="text-center mb-3">
+          <%= image_tag("QuaDiagonal.png", alt: "Qua", class: "duck-image") %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :content, style: "display: block" %>
-    <%= form.text_area :content %>
   </div>
+</div>
 
-  <div>
-    <%= form.submit "Create Comment" %>
-  </div>
-<% end %>
+<style>
+  .tweet-comments-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .form-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #348c2c; /* Mismo color del título */
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .btn-custom {
+    background-color: #83cb35; /* Color del botón */
+    color: white;
+    width: 100%; /* El ancho del botón también es 100% */
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+
+  .btn-custom:hover {
+    background-color: #548d24; /* Color del botón al hacer hover */
+  }
+
+  .tweet-content {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .duck-image {
+    max-width: 300px;
+    margin-top: 20px;
+  }
+</style>
