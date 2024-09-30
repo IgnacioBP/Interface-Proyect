@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
     def index
-        @tweets = Tweet.all(created_at: :desc)
+        @tweets = Tweet.includes(:user, :user_tweet_reactions).map { |tweet| tweet.set_current_user(current_user) }
         @reaction_levels = ReactionLevel.all
     end
 
@@ -31,16 +31,17 @@ class TweetsController < ApplicationController
     def react
         @tweet = Tweet.find(params[:tweet_id])
         @reaction_level = ReactionLevel.find(params[:reaction_level_id])
-        @user_reaction = @tweet.user_tweet_reactions.find_or_initialize_by(user: current_user)
-        @user_reaction.update(reaction_level: @reaction_level)
-        respond_to do |format|
-          format.js
+      
+        if @tweet.react(@reaction_level, current_user)
+          render json: {
+            tweet_id: @tweet.id,
+            reaction_display: render_to_string(partial: 'tweets/reaction_display', locals: { tweet: @tweet }, formats: [:html])
+          }
+        else
+          render json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
         end
-         # Líneas de depuración
-        puts "Tweet ID: #{@tweet.id}"
-        puts "Reaction Level ID: #{@reaction_level.id}"
-        puts "User Reaction: #{@user_reaction.inspect}"
-    end
+      end
+      
 
     private
     def tweet_params

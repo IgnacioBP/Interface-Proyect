@@ -6,8 +6,15 @@ class Tweet < ApplicationRecord
     has_many :reacting_users, through: :user_tweet_reactions, source: :user
 
     attribute :hashtags
+    attr_accessor :current_user
 
     after_create :create_tags
+
+    def set_current_user(user)
+        @current_user = user
+        self
+    end
+    
 
     def create_tags
         return if hashtags.blank?
@@ -18,6 +25,18 @@ class Tweet < ApplicationRecord
         end
     end
     
+    def current_reaction_level(user)
+        if user.present?
+          user_tweet_reactions.find_by(user: user)&.reaction_level
+        end
+    end
+
+    def react(reaction_level, user)
+        user_reaction = UserTweetReaction.find_or_initialize_by(user: user, tweet: self)
+        user_reaction.reaction_level = reaction_level
+        user_reaction.save
+    end
+      
 
     def creation_date
         created_at.strftime("%e %b %Y")

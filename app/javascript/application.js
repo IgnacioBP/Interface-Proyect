@@ -2,6 +2,8 @@
 import "@hotwired/turbo-rails";
 import "./controllers"; // Asegúrate de que esto esté importando los controladores correctamente
 import * as bootstrap from "bootstrap";
+import "@rails/ujs"
+Rails.start();
 
 // Si necesitas registrar controladores de Stimulus
 import { Application } from "stimulus";

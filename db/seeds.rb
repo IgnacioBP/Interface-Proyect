@@ -13,7 +13,7 @@ reaction_levels = [
   ReactionLevel.create(name: 'Like', emoji: '👍', level: 1),
   ReactionLevel.create(name: 'Love', emoji: '❤️', level: 2),
   ReactionLevel.create(name: 'Haha', emoji: '😂', level: 3),
-  ReactionLevel.create(name: 'Wow', emoji: '😮', level: 4),
+  ReactionLevel.create(name: 'Dislike', emoji: '😮', level: 4),
   ReactionLevel.create(name: 'Sad', emoji: '😢', level: 5)
 ]
 

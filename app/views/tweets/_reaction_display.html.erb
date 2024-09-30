@@ -1,4 +1,5 @@
-<% user_reaction = tweet.user_tweet_reactions.find_by(user: current_user) %>
-<% if user_reaction %>
-  Tu reacción: <span class="reaction-emoji"><%= user_reaction.reaction_level.emoji %></span>
-<% end %>
+<div class="current-reaction">
+  <% if tweet.current_reaction_level(current_user).present? %>
+    <%= image_tag "reactions/#{tweet.current_reaction_level(current_user).name.downcase}.png", class: 'current-reaction-image' %>
+  <% end %>
+</div>
