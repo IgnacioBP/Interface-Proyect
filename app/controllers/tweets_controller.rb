@@ -16,7 +16,7 @@ class TweetsController < ApplicationController
         tweet = Tweet.new tweet_params
         tweet.user = current_user
         if tweet.save
-            redirect_to tweet, notice: 'Tweet guardado con éxito'
+            redirect_to root_path, notice: 'Tweet guardado con éxito'
         else
             render :new
         end
