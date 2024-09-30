@@ -4,12 +4,17 @@
     <button class="btn btn-outline-light mb-3" id="toggleSidebar">
       <i class="bi bi-list"></i>
     </button>
-
-    <!-- Brand Name -->
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <span class="fs-4 sidebar-text">Quacker</span>
-    </a>
-
+    &nbsp;
+    
+    
+    <!-- User Profile at the Top -->
+    <div class="user-profile mb-4">
+      <a href="/profile" class="d-flex flex-column align-items-center text-white text-decoration-none">
+        <img src="https://github.com/mdo.png" alt="Profile image" width="50" height="50" class="rounded-circle mb-2">
+        <span class="fs-5 sidebar-text">John Doe</span>
+      </a>
+    </div>
+    
     <!-- Sidebar Menu -->
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
@@ -28,15 +33,16 @@
         </a>
       </li>
     </ul>
+    
+    <!-- Logout Button at the Bottom -->
+    <!-- Logout Button at the Bottom -->
+<div class="logout-section mt-auto">
+  <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center logout-button' do %>
+    <i class="bi bi-box-arrow-right"></i>
+    <span class="ms-2 sidebar-text">Sign out</span>
+  <% end %>
+</div>
 
-    <!-- User Section with Logout -->
-    <div class="user-section mt-auto d-flex align-items-center">
-      <img src="https://github.com/mdo.png" alt="Profile image" width="28" height="28" class="rounded-circle me-2">
-      <div class="d-flex flex-column">
-        <span class="sidebar-text">John Doe</span>
-        <%= link_to 'Sign out', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'btn btn-sm btn-outline-light mt-2' %>
-      </div>
-    </div>
   </div>
 
   <!-- Main Content -->
@@ -51,8 +57,8 @@
   display: flex;
   width: 100%;
   align-items: stretch;
-  margin: 0; /* Eliminamos márgenes adicionales */
-  padding: 0; /* Eliminamos cualquier padding */
+  margin: 0;
+  padding: 0;
 }
 
 /* Sidebar */
@@ -62,17 +68,29 @@
   background: #343a40;
   color: #f2f0ef;
   transition: width 0.3s ease-in-out;
-  margin: 0; /* Aseguramos que no haya margen */
-  padding: 0; /* Aseguramos que no haya padding adicional */
-  position: fixed; /* Fijamos el sidebar para que esté siempre visible en el lado izquierdo */
+  margin: 0;
+  padding: 0;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Aseguramos que el sidebar esté en la parte superior */
+  z-index: 1000;
+}
+/* Hide sidebar text when collapsed */
+#sidebar.collapsed .sidebar-text {
+  display: none;
 }
 
-/* Ajuste del contenido principal para evitar superposición con el sidebar */
+#sidebar.collapsed .logout-button {
+  justify-content: center;
+}
+
+#sidebar.collapsed .logout-button i {
+  font-size: 1.5rem; /* Ajustamos el tamaño del icono para que sea más visible */
+}
+
+/* Adjust content for the main section to prevent overlap with sidebar */
 #content {
-  margin-left: 250px; /* Compensa el espacio del sidebar */
+  margin-left: 250px;
   padding: 20px;
   min-height: 100vh;
   transition: margin-left 0.3s ease-in-out;
@@ -82,12 +100,11 @@
   width: 80px;
 }
 
-/* Ajustar el contenido cuando el sidebar está colapsado */
 #content.collapsed {
   margin-left: 80px;
 }
 
-/* Ocultar texto del sidebar cuando está colapsado */
+/* Hide sidebar text when collapsed */
 #sidebar.collapsed .sidebar-text {
   display: none;
 }
@@ -97,8 +114,21 @@
   padding: 15px 0;
 }
 
-/* User Section */
-.user-section {
+/* User Profile */
+.user-profile {
+  padding-bottom: 10px;
+}
+
+/* User Profile Image and Name */
+.user-profile a {
+  display: flex;
+  align-items: center;
+  color: #f2f0ef;
+  text-decoration: none;
+}
+
+/* Logout Button Styling */
+.logout-section {
   padding-top: 10px;
 }
 
@@ -111,7 +141,7 @@
     width: 80px;
   }
   #content {
-    margin-left: 0; /* En pantallas pequeñas, el contenido ocupa todo el ancho */
+    margin-left: 0;
   }
   #content.collapsed {
     margin-left: 80px;
