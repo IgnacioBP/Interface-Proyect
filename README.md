@@ -4,6 +4,9 @@
 
 ### Requirements
 
+### Si utiliza sistema Windows descargar la maquina virtual:
+# https://drive.google.com/file/d/1UHgAvM6SMhvo_77gfFWagfnHV2NzhGk2/view
+
 Make sure you have the following requirements installed:
 
 * Ruby 3.2.0
