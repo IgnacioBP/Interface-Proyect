@@ -11,22 +11,9 @@
                 <small class="text-muted"><%= tweet.creation_date %></small>
               </div>
               <p class="card-text mt-3"><%= tweet.body %></p>
-
               <div id="reaction-display-<%= tweet.id %>" class="mt-3">
-                <%= render 'tweets/reaction_display', tweet: tweet %>
+                <%= render partial: 'tweets/reaction_display', locals: { tweet: tweet, reaction_levels: ReactionLevel.all, current_user: current_user } %>
               </div>
-                <div class="dropdown mt-3">
-                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="reactionDropdown-<%= tweet.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Reaccionar
-                  </button>
-                  <div class="dropdown-menu reaction-dropdown" aria-labelledby="reactionDropdown-<%= tweet.id %>">
-                    <% @reaction_levels.each do |reaction_level| %>
-                      <%= form_with url: tweet_react_path(tweet, reaction_level.id), method: :post, remote: true, class: "reaction-form" do |f| %>
-                        <%= image_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', data: { submit: true } %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
             </div>
           </div>
         </div>

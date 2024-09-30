@@ -35,12 +35,21 @@ class TweetsController < ApplicationController
         if @tweet.react(@reaction_level, current_user)
           render json: {
             tweet_id: @tweet.id,
-            reaction_display: render_to_string(partial: 'tweets/reaction_display', locals: { tweet: @tweet }, formats: [:html])
+            reaction_display: render_to_string(
+              partial: 'tweets/reaction_display', 
+              locals: { 
+                tweet: @tweet, 
+                reaction_levels: ReactionLevel.all,
+                current_user: current_user
+              }, 
+              formats: [:html]
+            )
           }
         else
           render json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
+        ender json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
         end
-      end
+    end
       
 
     private
