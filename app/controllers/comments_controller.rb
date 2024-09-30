@@ -3,16 +3,17 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   # GET /comments or /comments.json
+  before_action :set_tweet
+
   def index
-    @comments = Comment.all
+    @tweet = Tweet.find(params[:tweet_id])
+    @comments = @tweet.comments
   end
 
   # GET /comments/1 or /comments/1.json
   def show
   end
 
-  # GET /comments/new
-  before_action :set_tweet
 
   def new
     @comment = Comment.new()

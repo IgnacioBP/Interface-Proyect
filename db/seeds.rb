@@ -3,6 +3,7 @@
 # Limpiamos la base de datos
 puts "Limpiando la base de datos..."
 UserTweetReaction.destroy_all
+Comment.destroy_all
 Tweet.destroy_all
 User.destroy_all
 ReactionLevel.destroy_all
