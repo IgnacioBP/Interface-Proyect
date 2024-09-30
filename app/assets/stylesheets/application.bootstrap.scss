@@ -4,6 +4,9 @@
 
 
 /* Main Wrapper */
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.scss';
 .wrapper {
     display: flex;
     width: 100%;
