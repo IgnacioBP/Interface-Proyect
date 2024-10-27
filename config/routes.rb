@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :tweets, except: [:update, :edit] do
     resources :comments, only: [:create, :new, :destroy, :index, :show]
   end
+  get 'hashtags/:name', to: 'hashtags#show', as: :hashtag
+  get 'search', to: 'hashtags#search', as: :search_hashtag
+  resources :users, only: [:show]
 end

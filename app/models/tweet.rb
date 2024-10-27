@@ -1,3 +1,4 @@
+# app/models/tweet.rb
 class Tweet < ApplicationRecord
     belongs_to :user
     has_many :user_tweet_reactions
@@ -5,45 +6,39 @@ class Tweet < ApplicationRecord
     has_many :tags
     has_many :hashtags, through: :tags
     has_many :reacting_users, through: :user_tweet_reactions, source: :user
-
-    attribute :hashtags
-    attr_accessor :current_user
-
-    after_create :create_tags
-
-    def set_current_user(user)
-        @current_user = user
-        self
-    end
-    
-
+  
+    attr_accessor :hashtags # Permite asignar hashtags desde el controlador
+  
+    after_create :create_tags # Crea los tags después de crear el tweet
+  
+  
     def create_tags
-        return if hashtags.blank?
+      return if hashtags.blank?
 
-        hashtags.each do |hashtag|
-            tag = Hashtag.find_or_create_by(name: hashtag.strip)
-            tags << Tag.create(tweet: self, hashtag: tag)
-        end
+      hashtags.split(',').map(&:strip).each do |hashtag_name|
+        hashtag = Hashtag.find_or_create_by(name: hashtag_name)
+        tag = tags.create(hashtag: hashtag)
+        puts "Created Tag: #{tag.inspect} with Hashtag: #{hashtag.inspect}" # Verifica la creación
+      end
     end
-    
+
+  
     def current_reaction_level(user)
-        if user.present?
-          user_tweet_reactions.find_by(user: user)&.reaction_level
-        end
+      user_tweet_reactions.find_by(user: user)&.reaction_level if user.present?
     end
-
+  
     def react(reaction_level, user)
-        user_reaction = UserTweetReaction.find_or_initialize_by(user: user, tweet: self)
-        user_reaction.reaction_level = reaction_level
-        user_reaction.save
+      user_reaction = UserTweetReaction.find_or_initialize_by(user: user, tweet: self)
+      user_reaction.reaction_level = reaction_level
+      user_reaction.save
     end
-      
-
+  
     def creation_date
-        created_at.strftime("%e %b %Y")
+      created_at.strftime("%e %b %Y")
     end
-
+  
     def list_hashtags
-        tags.map{ |t| t.hashtag.name }.join(',')
+      tags.map { |t| t.hashtag.name }.join(', ')
     end
-end
+  end
+  

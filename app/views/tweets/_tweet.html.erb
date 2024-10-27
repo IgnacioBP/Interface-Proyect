@@ -1,27 +1,65 @@
-<!-- <div class="card mb-3">
+<div class="card mb-3">
+  <!-- Encabezado de la tarjeta -->
   <div class="card-header d-flex justify-content-between align-items-center">
-    <span><%= tweet.user.full_name %></span>
-    <small class="text-muted"><%= tweet.created_at.strftime("%d %b %Y, %H:%M") %></small>
+    <div>
+      <strong><%= tweet.user.full_name %></strong>
+      <small class="text-muted d-block"><%= tweet.created_at.strftime("%d %b %Y, %H:%M") %></small>
+    </div>
   </div>
+
+  <!-- Cuerpo de la tarjeta -->
   <div class="card-body">
     <p class="card-text"><%= tweet.body %></p>
+
     <% if tweet.hashtags.any? %>
+      <!-- Tags (Hashtags) -->
       <p class="card-text">
         <% tweet.hashtags.each do |hashtag| %>
-          <span class="badge bg-secondary">#<%= hashtag.name %></span>
+          <span class="badge rounded-pill bg-info text-dark me-1">#<%= hashtag.name %></span>
         <% end %>
       </p>
     <% end %>
+
+    <!-- Botón de comentarios -->
     <%= link_to 'Ver detalles', tweet_path(tweet), class: 'btn btn-primary btn-sm' %>
-    <div class="mt-2">
+    
+    <!-- Sección de reacciones -->
+    <div class="mt-3 d-flex align-items-center flex-wrap">
       <% ReactionLevel.ordered_by_level.each do |reaction| %>
-        <%= button_to tweet_react_path(tweet, reaction_level_id: reaction.id), method: :post, class: "btn btn-outline-secondary btn-sm me-1" do %>
+        <%= button_to tweet_react_path(tweet, reaction_level_id: reaction.id), method: :post, class: "btn btn-outline-secondary btn-sm me-1 mb-1 reaction-btn" do %>
           <%= reaction.emoji %> <%= reaction.name %>
         <% end %>
       <% end %>
     </div>
   </div>
-  <div class="card-footer text-muted">
+
+  <!-- Pie de la tarjeta -->
+  <div class="card-footer text-muted d-flex justify-content-between align-items-center">
     <small>Reacciones: <%= tweet.user_tweet_reactions.count %></small>
+    <%= link_to 'Comentarios', tweet_path(tweet), class: 'btn btn-link btn-sm' %>
   </div>
 </div>
+
+<style>
+  .reaction-btn {
+    font-size: 0.9em;
+    padding: 0.3em 0.6em;
+    display: flex;
+    align-items: center;
+  }
+
+  .reaction-btn .emoji {
+    font-size: 1.2em; /* Aumenta el tamaño del emoji */
+    margin-right: 0.2em;
+  }
+
+  .card-header strong {
+    font-size: 1.1em;
+    color: #343a40;
+  }
+
+  .badge {
+    font-size: 0.85em;
+    padding: 0.4em 0.6em;
+  }
+</style>

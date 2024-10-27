@@ -1,3 +1,10 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+
 <div id="reaction-display-<%= tweet.id %>" class="reaction_section">
   <span class="current-reaction">
     <% if tweet.current_reaction_level(current_user).present? %>
@@ -13,7 +20,17 @@
     <div class="dropdown-menu reaction-dropdown" aria-labelledby="reactionDropdown-<%= tweet.id %>">
       <% reaction_levels.each do |reaction_level| %>
         <%= form_with url: tweet_react_path(tweet, reaction_level.id), method: :post, remote: true, class: "reaction-form" do |f| %>
-          <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% if reaction_level.name.downcase == "love" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'love-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "dislike" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'angry-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "haha" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'funny-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "sad" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'sad-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "like" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'like-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -21,43 +38,90 @@
 </div>
 
 <style>
-  .reaction-section {
+.reaction-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  }
+  background-color: transparent;
+}
 
-  .current-reaction {
-    display: flex;
-    align-items: center;
-  }
+.reaction-dropdown {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 5px;
+  min-width: auto;
+}
 
+.dropdown-menu.show {
+  display: flex;
+}
 
-  .no-reaction {
-    font-style: italic;
-    color: #888;
-    margin-left: 5px;
-  }
+.current-reaction {
+  display: flex;
+  align-items: center;
+}
 
-  .dropdown-menu {
+.no-reaction {
+  font-style: italic;
+  color: #888;
+  margin-left: 5px;
+}
+
+.dropdown-menu {
   display: none;
-  }
+}
 
-  .dropdown-menu.show {
-    display: block;
-  }
-    .dropdown-toggle {
-    margin-left: 10px;
-  }
+.dropdown-toggle {
+  margin-left: 10px;
+}
 
-  .reaction-dropdown {
-    min-width: 100px;
-  }
+/* Ajuste de las imágenes de reacción para que tengan el mismo tamaño y sin fondo */
+.reaction-image {
+  cursor: pointer;
+  width: 55px; /* Tamaño estándar para todas las reacciones */
+  height: 55px; /* Tamaño estándar para todas las reacciones */
+  background-color: transparent; /* Sin fondo */
+  border: none; /* Sin borde */
+  padding: 0;
+  object-fit: contain; /* Asegura que la imagen mantenga sus proporciones */
+}
 
-  .reaction-image {
-    cursor: pointer;
-  }
+.dropdown-item {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.love-reaction:hover {
+  animation: heartBeat 1s;
+}
+
+@keyframes wiggle {
+  0% { transform: translate(2px, 0); }
+  50% { transform: translate(-2px, 0); }
+  100% { transform: translate(2px, 0); }
+}
+
+.angry-reaction:hover {
+  animation: wiggleside 75ms infinite;
+  animation-timing-function: linear;
+}
+
+.funny-reaction:hover {
+  animation: swing 1s;
+}
+
+.sad-reaction:hover {
+  animation: wobble 1s;
+}
+
+.like-reaction:hover {
+  animation: rubberBand 1s;
+}
+
+
 </style>
 
 <script>

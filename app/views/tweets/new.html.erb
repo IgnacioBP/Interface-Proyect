@@ -15,8 +15,8 @@
 
       <div class="form-row d-flex justify-content-center">
         <div class="form-group col-4">
-          <%= text_field_tag :hashtags, nil, placeholder: 'Hashtags', 
-              class: 'form-control', 
+          <%= f.text_area :hashtags, placeholder: 'Hashtags. Separa tus hashtags con comas. Ejemplo: lol, jaja, divertido', 
+              class: 'form-control multi-line-placeholder', 
               style: "border: 2px solid #000; border-radius: 20px;" %>
         </div>
       </div>
