@@ -52,29 +52,29 @@ class TweetsController < ApplicationController
     end
 
     def react
-        @tweet = Tweet.find(params[:tweet_id])
-        @reaction_level = ReactionLevel.find(params[:reaction_level_id])
-      
-        if @tweet.react(@reaction_level, current_user)
-          render json: {
-            tweet_id: @tweet.id,
-            reaction_display: render_to_string(
-              partial: 'tweets/reaction_display', 
-              locals: { 
-                tweet: @tweet, 
-                reaction_levels: ReactionLevel.all,
-                current_user: current_user
-              }, 
-              formats: [:html]
-            )
-          }
-        else
-          render json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
-        ender json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
-        end
+      @tweet = Tweet.find(params[:tweet_id])
+      @reaction_level = ReactionLevel.find(params[:reaction_level_id])
+    
+      if @tweet.react(@reaction_level, current_user)
+        render json: {
+          tweet_id: @tweet.id,
+          reaction_display: render_to_string(
+            partial: 'tweets/reaction_display', 
+            locals: { 
+              tweet: @tweet, 
+              reaction_levels: ReactionLevel.all,
+              current_user: current_user
+            }, 
+            formats: [:html]
+          )
+        }
+      else
+        render json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
+      end
     end
-      
-
+    
+    
+        
     private
   
     # Use callbacks to set the tweet for show, edit, update, and destroy actions

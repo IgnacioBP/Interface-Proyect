@@ -126,7 +126,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Función para inicializar los dropdowns
   function initializeDropdowns() {
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     dropdownToggles.forEach(toggle => {
@@ -136,8 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownMenu.classList.toggle('show');
       });
     });
-
-    // Cerrar dropdowns cuando se hace clic fuera
     document.addEventListener('click', function(event) {
       if (!event.target.matches('.dropdown-toggle')) {
         const dropdowns = document.getElementsByClassName("dropdown-menu");
@@ -151,20 +148,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Inicializar dropdowns al cargar la página
   initializeDropdowns();
 
-  // Manejar el envío del formulario de reacción
   document.body.addEventListener('ajax:success', function(event) {
     if (event.target.classList.contains('reaction-form')) {
-      const [data, status, xhr] = event.detail;
+      const [data] = event.detail;
       const reactionDisplay = document.getElementById(`reaction-display-${data.tweet_id}`);
+      console.log(reactionDisplay);
       if (reactionDisplay) {
         reactionDisplay.outerHTML = data.reaction_display;
-        // Reinicializar dropdowns después de actualizar el contenido
         initializeDropdowns();
       }
     }
   });
 });
+
 </script>

@@ -44,32 +44,27 @@
 
     <% end %>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const form = document.getElementById("tweetForm");
-        const submitButton = document.getElementById("submitButton");
-
-        // Attach click event only to the submit button
-        submitButton.addEventListener("click", function(event) {
-          event.preventDefault();
-
-          // Create a new audio element dynamically
-          const audio = new Audio("/sounds/submit-sound.mp3");
-          
-          // Play the sound only when the button is pressed
-          audio.play().then(() => {
-            // Submit the form after a short delay to let the sound play
-            setTimeout(function() {
-              form.submit();
-            }, 500); // Adjust the delay if needed
-          }).catch((error) => {
-            console.error("Error playing audio:", error);
-            // If audio fails to play, submit the form immediately
-            form.submit();
-          });
-        });
-      });
-    </script>
-
   </div>
 </div>
+
+<script>
+document.addEventListener("click", function(event) {
+  if (event.target && event.target.id === "submitButton") {
+    event.preventDefault();
+    console.log("HER EHERE HERE"); // Para verificar si se ejecuta
+
+    const form = document.getElementById("tweetForm");
+    const audio = new Audio("/sounds/submit-sound.mp3");
+
+    audio.play().then(() => {
+      setTimeout(function() {
+        form.submit();
+      }, 500);
+    }).catch((error) => {
+      console.error("Error al reproducir el audio:", error);
+      form.submit();
+    });
+  }
+});
+
+</script>
