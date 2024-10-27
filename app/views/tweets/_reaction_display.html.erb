@@ -1,3 +1,10 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+
 <div id="reaction-display-<%= tweet.id %>" class="reaction_section">
   <span class="current-reaction">
     <% if tweet.current_reaction_level(current_user).present? %>
@@ -13,7 +20,13 @@
     <div class="dropdown-menu reaction-dropdown" aria-labelledby="reactionDropdown-<%= tweet.id %>">
       <% reaction_levels.each do |reaction_level| %>
         <%= form_with url: tweet_react_path(tweet, reaction_level.id), method: :post, remote: true, class: "reaction-form" do |f| %>
-          <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% if reaction_level.name.downcase == "love" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'love-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "dislike" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'angry-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% else %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -22,17 +35,16 @@
 
 <style>
   .reaction-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
   }
 
   .current-reaction {
     display: flex;
     align-items: center;
   }
-
 
   .no-reaction {
     font-style: italic;
@@ -41,13 +53,14 @@
   }
 
   .dropdown-menu {
-  display: none;
+    display: none;
   }
 
   .dropdown-menu.show {
     display: block;
   }
-    .dropdown-toggle {
+
+  .dropdown-toggle {
     margin-left: 10px;
   }
 
@@ -57,7 +70,54 @@
 
   .reaction-image {
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
   }
+
+  .reaction-image:hover {
+    transform: scale(1.2);
+  }
+
+  .dropdown-item {
+    padding: 0; /* Remove padding */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  .love-reaction {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .love-reaction:hover {
+    animation: pulse 800ms infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes wiggle {
+    0% { transform: translate(2px, 0); }
+    50% { transform: translate(-2px, 0); }
+    100% { transform: translate(2px, 0); }
+  }
+
+  .angry-reaction {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .angry-reaction:hover {
+    animation: wiggle 75ms infinite;
+    animation-timing-function: linear;
+  }
+
+
 </style>
 
 <script>

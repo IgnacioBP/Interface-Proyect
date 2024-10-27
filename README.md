@@ -25,7 +25,7 @@ Follow these steps to install the application:
 * Run rails db:create.
 * Run rails db:migrate.
 * Run rails db:seed.
-* Run rails assets:preecompile.
+* Run rails assets:precompile.
 * Run rails s.
 * Access from localhost:3000
 
