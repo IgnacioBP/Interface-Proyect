@@ -1,9 +1,8 @@
-<div class="d-flex align-items-center justify-content-center vh-100">
-  <div class="container text-center">    
+<div class="d-flex align-items-center justify-content-center vh-100" style="background-color: #f6f4db;">
+  <div class="container text-center">
+    <%= image_tag("gifs/Welcome_quacker.gif", alt: "No quacks", class: "no-tweets-image", height: 140, width: 200) %>    
     <h1 class="display-1" style="color: #599532; font-family: 'Open Sans', sans-serif; font-weight: 600;">
-      qu 
-      <%= image_tag "qua_lateral.png", alt: "logo", style: "width: 100px; height: 100px; vertical-align: middle;" %>      
-      cker
+      Quacker
     </h1>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'w-100 d-flex flex-column align-items-center' }) do |f| %>
       
@@ -47,3 +46,9 @@
     <% end %>
   </div>
 </div>
+
+<style>
+  .custom-background {
+  background-color: #ffff; /* Cambia el color de fondo como desees */
+  }
+</style>

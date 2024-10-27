@@ -7,43 +7,54 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h1 class="my-4 text-center bebas-neue-regular">Quacks de <%=@user.first_name%> <%=@user.last_name%></h1>
-      <% @tweets.each do |tweet| %>
-        <div class="tweet-container">
-          <div class="card tweet-card mb-4 position-relative">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 class="card-title mb-0">
-                    <%= link_to tweet.user.full_name, user_path(tweet.user.id), class: "text-decoration-none text-dark" %>
-                  </h5>
-                  <small class="text-muted"><%= tweet.creation_date %></small>
+      <h1 class="my-4 text-center bebas-neue-regular">Quacks de <%= @user.first_name %> <%= @user.last_name %></h1>
+      
+      <% if @tweets.any? %>
+        <% @tweets.each do |tweet| %>
+          <div class="tweet-container">
+            <div class="card tweet-card mb-4 position-relative">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="card-title mb-0">
+                      <%= link_to tweet.user.full_name, user_path(tweet.user.id), class: "text-decoration-none text-dark" %>
+                    </h5>
+                    <small class="text-muted"><%= tweet.creation_date %></small>
+                  </div>
                 </div>
+                <p class="card-text mt-3"><%= tweet.body %></p>
+
+                <!-- Hashtags -->
+                <% if tweet.tags&.any? %>
+                  <p class="card-text mt-2">
+                    <% tweet.tags.each do |tag| %>
+                      <%= link_to "##{tag.hashtag.name}", hashtag_path(tag.hashtag.name), class: "badge bg-info text-dark me-1" %>
+                    <% end %>
+                  </p>
+                <% else %>
+                  <p class="text-muted">No hashtags</p>
+                <% end %>
+
+                <!-- Reacciones -->
+                <div id="reaction-display-<%= tweet.id %>" class="mt-3">
+                  <%= render partial: 'tweets/reaction_display', locals: { tweet: tweet, reaction_levels: ReactionLevel.all, current_user: current_user } %>
+                </div>
+
+                <!-- Botón de comentario alineado a la esquina inferior derecha solo como imagen -->
+                <%= link_to tweet_comments_path(tweet), class: "btn-image" do %>
+                  <%= image_tag("comentario.png", alt: "Comments", class: "comment-image") %>
+                <% end %> 
               </div>
-              <p class="card-text mt-3"><%= tweet.body %></p>
-
-              <!-- Hashtags -->
-              <% if tweet.tags&.any? %>
-                <p class="card-text mt-2">
-                  <% tweet.tags.each do |tag| %>
-                    <%= link_to "##{tag.hashtag.name}", hashtag_path(tag.hashtag.name), class: "badge bg-info text-dark me-1" %>
-                  <% end %>
-                </p>
-              <% else %>
-                <p class="text-muted">No hashtags</p>
-              <% end %>
-
-
-
-              <!-- Reacciones -->
-              <div id="reaction-display-<%= tweet.id %>" class="mt-3">
-                <%= render partial: 'tweets/reaction_display', locals: { tweet: tweet, reaction_levels: ReactionLevel.all, current_user: current_user } %>
-              </div>   
-
-              <!-- Botón de comentario alineado a la esquina inferior derecha solo como imagen -->
-              <%= link_to tweet_comments_path(tweet), class: "btn-image" do %>
-                <%= image_tag("comentario.png", alt: "Comments", class: "comment-image") %>
-              <% end %> 
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- Mensaje e imagen cuando no hay tweets -->
+        <div class="no-tweets-container">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <p>No hay quacks todavía.</p>
+              <%= image_tag("gifs/QuackDurmiendo.gif", alt: "No quacks", class: "no-tweets-image") %>
             </div>
           </div>
         </div>
@@ -53,108 +64,16 @@
 </div>
 
 <style>
-  /* Configuración del contenedor */
-  .container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .row {
-    width: 100%;
-  }
-
-  .tweet-container {
-    position: relative;
-    width: 100%;
-  }
-
-  /* Estilo de la tarjeta */
-  .card {
-    width: 100%;
+  /* Estilo para el contenedor sin tweets */
+  .no-tweets-container .card {
     border: none;
-    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    padding-bottom: 40px; /* Espacio adicional para el botón de comentarios */
+    border-radius: 10px;
   }
 
-  /* Ajuste del tamaño dinámico de la tarjeta del tweet */
-  .tweet-card {
-    transition: margin-left 0.3s ease;
-  }
-
-  /* Mueve el contenido al activar la navbar */
-  #mainSidebar.active ~ .tweet-container .tweet-card {
-    margin-left: 200px; /* Ajusta según el ancho de la navbar */
-  }
-
-  .card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-  }
-
-  /* Título y subtítulo */
-  .card-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .text-muted {
-    font-size: 14px;
-  }
-
-  .card-text {
-    font-size: 16px;
-    line-height: 1.6;
-  }
-
-  /* Hashtags */
-  .badge {
-    font-size: 0.85em;
-    padding: 0.4em 0.6em;
-    border-radius: 12px;
-  }
-
-  /* Reacciones */
-  .reaction-emoji {
-    font-size: 20px;
-    text-align: center;
-    padding: 5px;
-  }
-
-  /* Solo imagen en el botón de comentario */
-  .btn-image {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    padding: 0;
-    border: none;
-    background: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @keyframes wiggleside {
-    0% { transform: translate(3px, 0); }
-    50% { transform: translate(-3px, 0); }
-    100% { transform: translate(3px, 0); }
-  }
-
-  .btn-image:hover {
-    animation: wiggleside 800ms infinite;
-    animation-timing-function: linear;
-  }
-
-  .comment-image {
-    width: 50px;
-    height: 45px;
-  }
-
-  .bebas-neue-regular {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  .no-tweets-image {
+    width: 150px;
+    height: auto;
+    margin-top: 10px;
   }
 </style>

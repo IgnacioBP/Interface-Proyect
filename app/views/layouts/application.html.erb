@@ -21,7 +21,7 @@
       <div class="container-fluid" style="height: 70px;">
         <!-- Logo de Quacker -->
         <a class="navbar-brand" href="/">
-          <img src="logo.png" alt="Quacker Logo" width="30" height="30">
+          <%= image_tag("QuaDiagonal.png", alt: "No quacks", class: "no-tweets-image", height: 80, width: 200) %>
           Quacker
         </a>
         
@@ -63,7 +63,7 @@
 
   <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
     <%= link_to new_tweet_path, class: "floating-btn animate__animated animate__jello" do %>
-      <%= image_tag("QuaDiagonal.png", alt: "New Tweet", class: "floating-btn-image") %>
+      <%= image_tag("gifs/dancin_quacker.gif", alt: "New Tweet", class: "floating-btn-image") %>
     <% end %>
   <% end %>
 
