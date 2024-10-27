@@ -3,7 +3,7 @@
 
     <h1 class="display-1" style="text-align: center; color: #599532; font-family: 'Open Sans', sans-serif; font-weight: 600;">Nuevo Quack</h1>
 
-    <%= form_with model: @tweet, local: true do |f| %>
+    <%= form_with model: @tweet, local: true, id: 'tweetForm' do |f| %>
 
       <div class="form-row d-flex justify-content-center">
         <div class="form-group col-4" style="margin-bottom: 20px;">
@@ -21,7 +21,6 @@
         </div>
       </div>
 
-
       <div class="d-flex justify-content-center mt-3">
         <div class="mt-3" style="margin-right: 125px;">
           <%= link_to "Volver", root_path, 
@@ -34,6 +33,7 @@
 
         <div class="actions mt-3">
           <%= f.submit "Publicar", 
+            id: 'submitButton', 
             class: 'btn rounded-pill', 
             style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
             onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
@@ -43,6 +43,33 @@
       </div>
 
     <% end %>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("tweetForm");
+        const submitButton = document.getElementById("submitButton");
+
+        // Attach click event only to the submit button
+        submitButton.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          // Create a new audio element dynamically
+          const audio = new Audio("/sounds/submit-sound.mp3");
+          
+          // Play the sound only when the button is pressed
+          audio.play().then(() => {
+            // Submit the form after a short delay to let the sound play
+            setTimeout(function() {
+              form.submit();
+            }, 500); // Adjust the delay if needed
+          }).catch((error) => {
+            console.error("Error playing audio:", error);
+            // If audio fails to play, submit the form immediately
+            form.submit();
+          });
+        });
+      });
+    </script>
 
   </div>
 </div>
