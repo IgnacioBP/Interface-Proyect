@@ -13,13 +13,12 @@ class TweetsController < ApplicationController
     end
 
     def create
-        tweet = Tweet.new tweet_params
-        tweet.user = current_user
-        if tweet.save
-            redirect_to root_path, notice: 'Tweet guardado con éxito'
-        else
-            render :new
-        end
+      @tweet = current_user.tweets.new(tweet_params)
+      if @tweet.save
+        redirect_to root_path, notice: 'Tweet creado exitosamente'
+      else
+        render :new
+      end
     end
 
     def destroy
