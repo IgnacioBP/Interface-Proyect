@@ -2,20 +2,23 @@
   <div class="container d-flex flex-column align-items-center justify-content-center" style="max-width: 600px;">
     
     <h1 class="display-1 text-center" style="color: #599532; font-family: 'Open Sans', sans-serif; font-weight: 600;">
-      quacker Registration
-      
+      qu 
+      <%= image_tag "qua_lateral.png", alt: "logo", style: "width: 100px; height: 100px; vertical-align: middle;" %>      
+      cker 
+      Registro
+
     </h1>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'w-100' }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="form-group w-100">
-        <%= f.label :first_name %><br />
+        <%= f.label :nombre %><br />
         <%= f.text_field :first_name, autofocus: true, placeholder: "Nombre", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
       </div>
 
       <div class="form-group w-100">
-        <%= f.label :last_name %><br />
+        <%= f.label :apellido %><br />
         <%= f.text_field :last_name, placeholder: "Apellido", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
       </div>
       
@@ -25,27 +28,27 @@
       </div>
 
       <div class="form-group w-100">
-        <%= f.label :password %><br />
+        <%= f.label :contraseña %><br />
         <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+        <em><%= @minimum_password_length %> caracteres minimo)</em><br />
         <% end %>
         <%= f.password_field :password, placeholder: "Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
       </div>
 
       <div class="form-group w-100">
-        <%= f.label :password_confirmation %><br />
+        <%= f.label :confirmacion_contraseña %><br />
         <%= f.password_field :password_confirmation, placeholder: "Confirm Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
       </div><br />
 
       <div class="d-flex justify-content-between mt-4 w-100">
-        <%= link_to "Login", new_user_session_path, 
+        <%= link_to "Cancelar", new_user_session_path, 
           class: 'btn rounded-pill', 
-          style: 'width: 150px; background-color: #ffde59; color: #000; transition: background-color 0.3s ease;', 
+          style: 'width: 150px; background-color: #d4856a; color: #000; transition: background-color 0.3s ease;', 
           onmouseover: "this.style.backgroundColor='#e0c04e'; this.style.color='#fff';", 
-          onmouseout: "this.style.backgroundColor='#ffde59'; this.style.color='#000';" 
+          onmouseout: "this.style.backgroundColor='#d4856a'; this.style.color='#000';" 
         %>
 
-        <%= f.submit "Sign up", 
+        <%= f.submit "Emprender vuelo", 
           class: 'btn rounded-pill', 
           style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
           onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
@@ -54,7 +57,6 @@
       </div>
     <% end %>
   
-    <%= render "devise/shared/links" %>
   
   </div>
 </div>

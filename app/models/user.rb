@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_many :tweets
+  has_many :user_tweet_reactions
+  has_many :reacted_tweets, through: :user_tweet_reactions, source: :tweet
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

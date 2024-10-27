@@ -5,7 +5,8 @@ class TweetsController < ApplicationController
   
     # GET /tweets
     def index
-        @tweets = Tweet.all
+        @tweets = Tweet.includes(:user, :user_tweet_reactions).map { |tweet| tweet.set_current_user(current_user) }
+        @reaction_levels = ReactionLevel.all
     end
   
     # GET /tweets/:id
@@ -22,14 +23,13 @@ class TweetsController < ApplicationController
   
     # POST /tweets
     def create
-      @tweet = Tweet.new(tweet_params)
-      @tweet.user = current_user
-      if @tweet.save
-        redirect_to @tweet, notice: 'Tweet guardado con éxito.'
-      else
-        flash.now[:alert] = 'Hubo un problema al guardar el tweet.'
-        render :new
-      end
+        tweet = Tweet.new tweet_params
+        tweet.user = current_user
+        if tweet.save
+            redirect_to root_path, notice: 'Tweet guardado con éxito'
+        else
+            render :new
+        end
     end
   
     # GET /tweets/:id/edit
@@ -51,7 +51,31 @@ class TweetsController < ApplicationController
       @tweet.destroy
       redirect_to tweets_path, notice: 'Tweet eliminado con éxito.'
     end
-  
+
+    def react
+        @tweet = Tweet.find(params[:tweet_id])
+        @reaction_level = ReactionLevel.find(params[:reaction_level_id])
+      
+        if @tweet.react(@reaction_level, current_user)
+          render json: {
+            tweet_id: @tweet.id,
+            reaction_display: render_to_string(
+              partial: 'tweets/reaction_display', 
+              locals: { 
+                tweet: @tweet, 
+                reaction_levels: ReactionLevel.all,
+                current_user: current_user
+              }, 
+              formats: [:html]
+            )
+          }
+        else
+          render json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
+        ender json: { error: 'Error al reaccionar al tweet' }, status: :unprocessable_entity
+        end
+    end
+      
+
     private
   
     # Use callbacks to set the tweet for show, edit, update, and destroy actions

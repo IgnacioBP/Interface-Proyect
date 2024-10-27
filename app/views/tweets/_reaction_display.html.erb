@@ -1,0 +1,106 @@
+<div id="reaction-display-<%= tweet.id %>" class="reaction_section">
+  <span class="current-reaction">
+    <% if tweet.current_reaction_level(current_user).present? %>
+      <%= image_tag "reactions/#{tweet.current_reaction_level(current_user).name.downcase}.png", class: 'current-reaction-image', alt: "Current reaction: #{tweet.current_reaction_level(current_user).name}" %>
+    <% else %>
+      <span class="no-reaction">Sin reacción</span>
+    <% end %>
+  </span>
+  <div class="dropdown mt-3">
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="reactionDropdown-<%= tweet.id %>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Reaccionar
+    </button>
+    <div class="dropdown-menu reaction-dropdown" aria-labelledby="reactionDropdown-<%= tweet.id %>">
+      <% reaction_levels.each do |reaction_level| %>
+        <%= form_with url: tweet_react_path(tweet, reaction_level.id), method: :post, remote: true, class: "reaction-form" do |f| %>
+          <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .reaction-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  }
+
+  .current-reaction {
+    display: flex;
+    align-items: center;
+  }
+
+
+  .no-reaction {
+    font-style: italic;
+    color: #888;
+    margin-left: 5px;
+  }
+
+  .dropdown-menu {
+  display: none;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+    .dropdown-toggle {
+    margin-left: 10px;
+  }
+
+  .reaction-dropdown {
+    min-width: 100px;
+  }
+
+  .reaction-image {
+    cursor: pointer;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Función para inicializar los dropdowns
+  function initializeDropdowns() {
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        const dropdownMenu = this.nextElementSibling;
+        dropdownMenu.classList.toggle('show');
+      });
+    });
+
+    // Cerrar dropdowns cuando se hace clic fuera
+    document.addEventListener('click', function(event) {
+      if (!event.target.matches('.dropdown-toggle')) {
+        const dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    });
+  }
+
+  // Inicializar dropdowns al cargar la página
+  initializeDropdowns();
+
+  // Manejar el envío del formulario de reacción
+  document.body.addEventListener('ajax:success', function(event) {
+    if (event.target.classList.contains('reaction-form')) {
+      const [data, status, xhr] = event.detail;
+      const reactionDisplay = document.getElementById(`reaction-display-${data.tweet_id}`);
+      if (reactionDisplay) {
+        reactionDisplay.outerHTML = data.reaction_display;
+        // Reinicializar dropdowns después de actualizar el contenido
+        initializeDropdowns();
+      }
+    }
+  });
+});
+</script>
