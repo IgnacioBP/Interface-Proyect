@@ -1,6 +1,19 @@
 
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.scss';
+
+// Importa las fuentes de Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+// Aplica las fuentes globalmente
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+body, p, div, span, a, li, input, button {
+  font-family: 'Source Sans 3', sans-serif;
+}
+
 .wrapper {
     display: flex;
     width: 100%;
@@ -79,4 +92,15 @@
     #sidebar.active {
       margin-left: 0;
     }
+  }
+
+  /* Centrado completo para la vista de inicio de sesión */
+  .fullscreen-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }

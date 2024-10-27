@@ -24,8 +24,12 @@
             <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'love-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
           <% elsif reaction_level.name.downcase == "dislike" %>
             <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'angry-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
-          <% else %>
-            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "haha" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'funny-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "sad" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'sad-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
+          <% elsif reaction_level.name.downcase == "like" %>
+            <%= image_submit_tag "reactions/#{reaction_level.name.downcase}.png", class: 'like-reaction dropdown-item reaction-image', alt: "React with #{reaction_level.name}" %>
           <% end %>
         <% end %>
       <% end %>
@@ -34,88 +38,88 @@
 </div>
 
 <style>
-  .reaction-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
+.reaction-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  background-color: transparent;
+}
 
-  .current-reaction {
-    display: flex;
-    align-items: center;
-  }
+.reaction-dropdown {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 5px;
+  min-width: auto;
+}
 
-  .no-reaction {
-    font-style: italic;
-    color: #888;
-    margin-left: 5px;
-  }
+.dropdown-menu.show {
+  display: flex;
+}
 
-  .dropdown-menu {
-    display: none;
-  }
+.current-reaction {
+  display: flex;
+  align-items: center;
+}
 
-  .dropdown-menu.show {
-    display: block;
-  }
+.no-reaction {
+  font-style: italic;
+  color: #888;
+  margin-left: 5px;
+}
 
-  .dropdown-toggle {
-    margin-left: 10px;
-  }
+.dropdown-menu {
+  display: none;
+}
 
-  .reaction-dropdown {
-    min-width: 100px;
-  }
+.dropdown-toggle {
+  margin-left: 10px;
+}
 
-  .reaction-image {
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-  }
+/* Ajuste de las imágenes de reacción para que tengan el mismo tamaño y sin fondo */
+.reaction-image {
+  cursor: pointer;
+  width: 55px; /* Tamaño estándar para todas las reacciones */
+  height: 55px; /* Tamaño estándar para todas las reacciones */
+  background-color: transparent; /* Sin fondo */
+  border: none; /* Sin borde */
+  padding: 0;
+  object-fit: contain; /* Asegura que la imagen mantenga sus proporciones */
+}
 
-  .reaction-image:hover {
-    transform: scale(1.2);
-  }
+.dropdown-item {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
 
-  .dropdown-item {
-    padding: 0; /* Remove padding */
-    background: none; /* Remove background */
-    border: none; /* Remove border */
-  }
+.love-reaction:hover {
+  animation: heartBeat 1s;
+}
 
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  }
+@keyframes wiggle {
+  0% { transform: translate(2px, 0); }
+  50% { transform: translate(-2px, 0); }
+  100% { transform: translate(2px, 0); }
+}
 
-  .love-reaction {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-  }
+.angry-reaction:hover {
+  animation: wiggleside 75ms infinite;
+  animation-timing-function: linear;
+}
 
-  .love-reaction:hover {
-    animation: pulse 800ms infinite;
-    animation-timing-function: linear;
-  }
+.funny-reaction:hover {
+  animation: swing 1s;
+}
 
-  @keyframes wiggle {
-    0% { transform: translate(2px, 0); }
-    50% { transform: translate(-2px, 0); }
-    100% { transform: translate(2px, 0); }
-  }
+.sad-reaction:hover {
+  animation: wobble 1s;
+}
 
-  .angry-reaction {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-  }
-
-  .angry-reaction:hover {
-    animation: wiggle 75ms infinite;
-    animation-timing-function: linear;
-  }
+.like-reaction:hover {
+  animation: rubberBand 1s;
+}
 
 
 </style>
