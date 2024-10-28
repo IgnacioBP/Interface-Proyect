@@ -125,7 +125,6 @@
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
   function initializeDropdowns() {
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     dropdownToggles.forEach(toggle => {
@@ -135,7 +134,9 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownMenu.classList.toggle('show');
       });
     });
+
     document.addEventListener('click', function(event) {
+      console.log("click");
       if (!event.target.matches('.dropdown-toggle')) {
         const dropdowns = document.getElementsByClassName("dropdown-menu");
         for (let i = 0; i < dropdowns.length; i++) {
@@ -157,10 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(reactionDisplay);
       if (reactionDisplay) {
         reactionDisplay.outerHTML = data.reaction_display;
-        initializeDropdowns();
+        initializeDropdowns(); // Vuelve a inicializar los dropdowns si el contenido cambia
       }
     }
   });
-});
-
 </script>
