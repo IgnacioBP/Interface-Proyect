@@ -19,7 +19,7 @@
       </div>
 
       <!-- Formulario para crear un comentario -->
-      <%= form_with(model: [@tweet, comment]) do |form| %>
+      <%= form_with(model: [@tweet, comment], id: "tweetForm") do |form| %>
         <% if comment.errors.any? %>
           <div class="alert alert-danger">
             <h6><%= pluralize(comment.errors.count, "error") %> impidió guardar el comentario:</h6>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="text-center mt-4">
-          <%= form.submit "Crear comentario", class: "btn btn-custom" %>
+          <%= form.submit "Crear comentario", class: "btn btn-custom", id: "submitButton" %>
         </div>
 
         <div class="text-center mb-3">
@@ -47,6 +47,26 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("click", function(event) {
+  if (event.target && event.target.id === "submitButton") {
+    event.preventDefault();
+
+    const form = document.getElementById("tweetForm");
+    const audio = new Audio("/sounds/comment_ducks.mp3");
+
+    audio.play().then(() => {
+      setTimeout(function() {
+        form.submit();
+      }, 500);
+    }).catch((error) => {
+      console.error("Error al reproducir el audio:", error);
+      form.submit();
+    });
+  }
+});
+</script>
 
 <style>
   .tweet-comments-container {
