@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: quacker_user
+      POSTGRES_PASSWORD: quacker
+      POSTGRES_DB: simple_twitter_production
+
+  app:
+    build: .
+    command: rails server -b 0.0.0.0 -e production
+    environment:
+      DATABASE_URL: postgres://quacker_user:quacker@db:5432/simple_twitter_production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
