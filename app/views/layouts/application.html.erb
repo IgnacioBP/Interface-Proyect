@@ -21,15 +21,15 @@
       <div class="container-fluid" style="height: 70px;">
         <!-- Logo de Quacker -->
         <a class="navbar-brand" href="/">
-          <%= image_tag("QuaDiagonal.png", alt: "No quacks", class: "no-tweets-image", height: 80, width: 200) %>
+          <img src="logo.png" alt="Quacker Logo" width="30" height="30">
           Quacker
         </a>
         
         <!-- Search Bar -->
-        <%= form_with url: search_hashtag_path, method: :get, local: true, class: "d-flex ms-auto" do %>
+        <%= form_with url: search_hashtag_path, method: :get, local: true, id: "searchForm", class: "d-flex ms-auto" do %>
           <%= text_field_tag :query, params[:query], placeholder: "Buscar tweets por hashtag", class: "form-control me-2" %>
           <%= hidden_field_tag :user_id, @user.id if @user %>
-          <%= submit_tag "Buscar", class: "btn btn-search" %>
+          <%= submit_tag "Buscar", class: "btn btn-search", id: "searchButton" %>
         <% end %>
       </div>
     </nav>
@@ -63,7 +63,7 @@
 
   <% unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
     <%= link_to new_tweet_path, class: "floating-btn animate__animated animate__jello" do %>
-      <%= image_tag("gifs/dancin_quacker.gif", alt: "New Tweet", class: "floating-btn-image") %>
+      <%= image_tag("QuaDiagonal.png", alt: "New Tweet", class: "floating-btn-image") %>
     <% end %>
   <% end %>
 
@@ -196,5 +196,25 @@ document.addEventListener("turbo:load", function() {
       content.classList.toggle("collapsed");
     }
   });
+
+  const registerButton = document.getElementById("searchButton");
+  const registrationForm = document.getElementById("searchForm");
+
+  if (registerButton) {
+    registerButton.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      const audio = new Audio("/sounds/search_sound.mp3");
+      audio.play().then(() => {
+        setTimeout(function() {
+          registrationForm.submit();
+        }, 4000);
+      }).catch((error) => {
+        console.error("Error al reproducir el audio:", error);
+        registrationForm.submit();
+      });
+    });
+  }
 });
+
 </script>

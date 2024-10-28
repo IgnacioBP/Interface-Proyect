@@ -6,10 +6,9 @@
       <%= image_tag "qua_lateral.png", alt: "logo", style: "width: 100px; height: 100px; vertical-align: middle;" %>      
       cker 
       Registro
-
     </h1>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'w-100' }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'w-100', id: 'registrationForm' }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="form-group w-100">
@@ -49,6 +48,7 @@
         %>
 
         <%= f.submit "Emprender vuelo", 
+          id: 'registerButton', 
           class: 'btn rounded-pill', 
           style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
           onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
@@ -56,7 +56,31 @@
         %>
       </div>
     <% end %>
-  
-  
   </div>
 </div>
+
+<script>
+function initializeRegisterSound() {
+  const registerButton = document.getElementById("registerButton");
+  const registrationForm = document.getElementById("registrationForm");
+
+  if (registerButton) {
+    registerButton.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      const audio = new Audio("/sounds/emprender_vuelo.mp3");
+      audio.play().then(() => {
+        setTimeout(function() {
+          registrationForm.submit();
+        }, 500);
+      }).catch((error) => {
+        console.error("Error al reproducir el audio:", error);
+        registrationForm.submit();
+      });
+    });
+  }
+}
+
+// Asocia el sonido después de que se carga la página o contenido dinámico
+document.addEventListener("turbo:load", initializeRegisterSound);
+</script>
