@@ -158,3 +158,44 @@
     font-style: normal;
   }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function initializeDropdowns() {
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        const dropdownMenu = this.nextElementSibling;
+        dropdownMenu.classList.toggle('show');
+      });
+    });
+    document.addEventListener('click', function(event) {
+      if (!event.target.matches('.dropdown-toggle')) {
+        const dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    });
+  }
+
+  initializeDropdowns();
+
+  document.body.addEventListener('ajax:success', function(event) {
+    if (event.target.classList.contains('reaction-form')) {
+      const [data] = event.detail;
+      const reactionDisplay = document.getElementById(`reaction-display-${data.tweet_id}`);
+      console.log(reactionDisplay);
+      if (reactionDisplay) {
+        reactionDisplay.outerHTML = data.reaction_display;
+        initializeDropdowns();
+      }
+    }
+  });
+});
+
+</script>

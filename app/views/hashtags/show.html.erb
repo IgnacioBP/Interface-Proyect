@@ -20,9 +20,6 @@
                 <p class="card-text mt-3"><%= tweet.body %></p>
 
                 <!-- Hashtags -->
-                <!-- Verifica si hay hashtags con el operador &. para evitar errores de nil -->
-                <!-- Hashtags -->
-                <!-- En la vista del home -->
                 <% if tweet.tags&.any? %>
                   <p class="card-text mt-2">
                     <% tweet.tags.each do |tag| %>

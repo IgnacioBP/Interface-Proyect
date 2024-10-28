@@ -18,18 +18,17 @@
   <% if user_signed_in? %>
     <!-- Navbar Superior -->
     <nav class="navbar navbar-light shadow-sm sticky-top" style="background-color: #f6b528;">
-      <div class="container-fluid" style="height: 70px;">
-        <!-- Logo de Quacker -->
-        <a class="navbar-brand" href="/">
-          <%= image_tag("QuaDiagonal.png", alt: "No quacks", class: "no-tweets-image", height: 80, width: 200) %>
-          Quacker
+      <div class="container d-flex justify-content-center align-items-center" style="height: 70px;">
+        <!-- Logo de Quacker alineado a la izquierda -->
+        <a class="navbar-brand me-auto" href="/">
+          <%= image_tag("logoQuacker.png", alt: "Logo Quacker", class: "logo-image", height: 50, width: 100) %>
         </a>
         
-        <!-- Search Bar -->
-        <%= form_with url: search_hashtag_path, method: :get, local: true, class: "d-flex ms-auto" do %>
+        <!-- Search Bar alineada a la derecha -->
+        <%= form_with url: search_hashtag_path, method: :get, local: true, class: "d-flex search-bar" do %>
           <%= text_field_tag :query, params[:query], placeholder: "Buscar tweets por hashtag", class: "form-control me-2" %>
           <%= hidden_field_tag :user_id, @user.id if @user %>
-          <%= submit_tag "Buscar", class: "btn btn-search" %>
+          <%= submit_tag "Buscar", class: "btn btn-search", id: "searchButton" %>
         <% end %>
       </div>
     </nav>
@@ -69,7 +68,6 @@
 
 </body>
 </html>
-
 
 <style>
 /* Ajustes generales */
@@ -113,11 +111,6 @@ main {
   transition: transform 0.3s ease-in-out;
 }
 
-.btn-search:hover {
-  transform: scale(1.1) rotate(1deg);
-  transition: transform 0.3s ease-in-out;
-}
-
 @keyframes jello {
   0%, 100% { transform: scale(1) rotate(0); }
   25% { transform: scale(1.1) rotate(1deg); }
@@ -131,7 +124,7 @@ main {
   animation: jello 0.5s;
 }
 
-/* Ajustes del floating button */
+/* Floating button */
 .floating-btn {
   position: fixed;
   bottom: 20px;
@@ -144,16 +137,6 @@ main {
   transition: transform 0.3s ease-in-out;
 }
 
-@keyframes wiggle {
-  0% { transform: translate(0, 6px); }
-  50% { transform: translate(0, -6px); }
-  100% { transform: translate(0, 6px); }
-}
-
-.floating-btn:hover {
-  animation: wiggle 900ms infinite;
-}
-
 .floating-btn-image {
   width: 100%;
   height: auto;
@@ -161,28 +144,18 @@ main {
   object-fit: cover;
 }
 
-/* Media query para pantallas pequeñas */
-@media (max-width: 768px) {
-  #mainSidebar {
-    width: 0;
-    overflow: hidden;
-  }
-
-  #mainSidebar.collapsed {
-    width: 80px;
-    background: #4B6E24;
-  }
-
-  #content {
-    margin-left: 0;
-  }
-
-  #content.collapsed {
-    margin-left: 80px;
-  }
+.logo-image {
+  width: 250px; /* Ajusta el ancho según sea necesario */
+  height: auto; /* Mantiene la relación de aspecto del logo */
+  margin-top: -40px;
 }
-  
+
+.search-bar {
+  margin-top: -40px;
+}
+
 </style>
+
 
 
 <script>
@@ -196,5 +169,25 @@ document.addEventListener("turbo:load", function() {
       content.classList.toggle("collapsed");
     }
   });
+
+  const registerButton = document.getElementById("searchButton");
+  const registrationForm = document.getElementById("searchForm");
+
+  if (registerButton) {
+    registerButton.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      const audio = new Audio("/sounds/search_sound.mp3");
+      audio.play().then(() => {
+        setTimeout(function() {
+          registrationForm.submit();
+        }, 4000);
+      }).catch((error) => {
+        console.error("Error al reproducir el audio:", error);
+        registrationForm.submit();
+      });
+    });
+  }
 });
+
 </script>

@@ -4,7 +4,7 @@
     <h1 class="display-1" style="color: #599532; font-family: 'Open Sans', sans-serif; font-weight: 600;">
       Quacker
     </h1>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'w-100 d-flex flex-column align-items-center' }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'w-100 d-flex flex-column align-items-center', id: 'loginForm' }) do |f| %>
       
       <div class="form-row w-50">
         <div class="form-group w-100">
@@ -35,7 +35,8 @@
           onmouseout: "this.style.backgroundColor='#ffde59'; this.style.color='#000';" 
         %>
 
-        <%= f.submit "Log in", 
+        <%= f.submit "Emprender vuelo", 
+          id: 'loginButton', 
           class: 'btn rounded-pill', 
           style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
           onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
@@ -47,8 +48,28 @@
   </div>
 </div>
 
-<style>
-  .custom-background {
-  background-color: #ffff; /* Cambia el color de fondo como desees */
+<script>
+function initializeLoginSound() {
+  const loginButton = document.getElementById("loginButton");
+  const loginForm = document.getElementById("loginForm");
+
+  if (loginButton) {
+    loginButton.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      const audio = new Audio("/sounds/emprender_vuelo.mp3");
+      audio.play().then(() => {
+        setTimeout(function() {
+          loginForm.submit();
+        }, 500);
+      }).catch((error) => {
+        console.error("Error al reproducir el audio:", error);
+        loginForm.submit();
+      });
+    });
   }
-</style>
+}
+
+document.addEventListener("turbo:load", initializeLoginSound);
+
+</script>
