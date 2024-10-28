@@ -25,7 +25,7 @@
         </a>
         
         <!-- Search Bar alineada a la derecha -->
-        <%= form_with url: search_hashtag_path, method: :get, local: true, class: "d-flex search-bar" do %>
+        <%= form_with url: search_hashtag_path, method: :get, local: true, class: "d-flex search-bar", id: "searchForm" do %>
           <%= text_field_tag :query, params[:query], placeholder: "Buscar tweets por hashtag", class: "form-control me-2" %>
           <%= hidden_field_tag :user_id, @user.id if @user %>
           <%= submit_tag "Buscar", class: "btn btn-search", id: "searchButton" %>
