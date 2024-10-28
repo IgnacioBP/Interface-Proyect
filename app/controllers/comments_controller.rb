@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   before_action :set_tweet
 
   def index
-    @tweet = Tweet.find(params[:tweet_id])
+    @tweet = Tweet.includes(:hashtags).find(params[:tweet_id])
     @comments = @tweet.comments
   end
 
