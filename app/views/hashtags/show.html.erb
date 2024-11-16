@@ -52,6 +52,28 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener('turbo:load', () => {
+   
+    // Ruta del archivo de sonido
+    const hoverSound = new Audio('/sounds/hover_sound.mp3');
+
+    // Selecciona todos los hashtags
+    const hashtags = document.querySelectorAll('.hashtag-link');
+
+    // Añade el evento 'mouseover' a cada hashtag
+    hashtags.forEach((hashtag) => {
+      hashtag.addEventListener('mouseover', () => {
+        hoverSound.currentTime = 0; // Reinicia el sonido
+        hoverSound.play().catch((err) => {
+          console.error("Error al reproducir el sonido:", err);
+        });
+      });
+    });
+  });
+
+</script>
+
 <style>
   /* Configuración del contenedor */
   .container {
