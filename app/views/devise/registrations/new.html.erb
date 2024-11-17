@@ -1,61 +1,65 @@
+
 <div class="d-flex align-items-center justify-content-center vh-100">
   <div class="container d-flex flex-column align-items-center justify-content-center" style="max-width: 600px;">
-    
-    <h1 class="display-1 text-center" style="color: #599532; font-family: 'Open Sans', sans-serif; font-weight: 600;">
-      qu 
-      <%= image_tag "qua_lateral.png", alt: "logo", style: "width: 100px; height: 100px; vertical-align: middle;" %>      
-      cker 
-      Registro
-    </h1>
+    <div class="card shadow-lg p-4" style="max-width: 800px; border-radius: 20px; background-color: #f6f4db;">
+      <div class="card-body text-center" style="background-color:#f6f4db;">
+        <h1 class="display-1 text-center" style="color: #599532; font-weight: 600;">
+          qu 
+          <%= image_tag "qua_lateral.png", alt: "logo", style: "width: 100px; height: 100px; vertical-align: middle;" %>      
+          cker 
+          Registro
+        </h1>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'w-100', id: 'registrationForm' }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'w-100', id: 'registrationForm' }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="form-group w-100">
-        <%= f.label :nombre %><br />
-        <%= f.text_field :first_name, autofocus: true, placeholder: "Nombre", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
-      </div>
+          <div class="form-group w-100">
+            <%= f.label :nombre %><br />
+            <%= f.text_field :first_name, autofocus: true, placeholder: "Nombre", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
+          </div>
 
-      <div class="form-group w-100">
-        <%= f.label :apellido %><br />
-        <%= f.text_field :last_name, placeholder: "Apellido", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
-      </div>
-      
-      <div class="form-group w-100">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, placeholder: "Email", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
-      </div>
+          <div class="form-group w-100">
+            <%= f.label :apellido %><br />
+            <%= f.text_field :last_name, placeholder: "Apellido", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
+          </div>
+          
+          <div class="form-group w-100">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, placeholder: "Email", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
+          </div>
 
-      <div class="form-group w-100">
-        <%= f.label :contraseña %><br />
-        <% if @minimum_password_length %>
-        <em><%= @minimum_password_length %> caracteres minimo)</em><br />
+          <div class="form-group w-100">
+            <%= f.label :contraseña %><br />
+            <% if @minimum_password_length %>
+            <em><%= @minimum_password_length %> caracteres minimo)</em><br />
+            <% end %>
+            <%= f.password_field :password, placeholder: "Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
+          </div>
+
+          <div class="form-group w-100">
+            <%= f.label :confirmacion_contraseña %><br />
+            <%= f.password_field :password_confirmation, placeholder: "Confirm Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
+          </div><br />
+
+          <div class="d-flex justify-content-between mt-4 w-100">
+            <%= link_to "Cancelar", new_user_session_path, 
+              class: 'btn rounded-pill', 
+              style: 'width: 150px; background-color: #d4856a; color: #000; transition: background-color 0.3s ease;', 
+              onmouseover: "this.style.backgroundColor='#e0c04e'; this.style.color='#fff';", 
+              onmouseout: "this.style.backgroundColor='#d4856a'; this.style.color='#000';" 
+            %>
+
+            <%= f.submit "Emprender vuelo", 
+              id: 'registerButton', 
+              class: 'btn rounded-pill', 
+              style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
+              onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
+              onmouseout: "this.style.backgroundColor='#82bb5d'; this.style.color='#000';" 
+            %>
+          </div>
         <% end %>
-        <%= f.password_field :password, placeholder: "Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
       </div>
-
-      <div class="form-group w-100">
-        <%= f.label :confirmacion_contraseña %><br />
-        <%= f.password_field :password_confirmation, placeholder: "Confirm Password", class: 'form-control', style: "border: 2px solid #000; border-radius: 20px;" %>
-      </div><br />
-
-      <div class="d-flex justify-content-between mt-4 w-100">
-        <%= link_to "Cancelar", new_user_session_path, 
-          class: 'btn rounded-pill', 
-          style: 'width: 150px; background-color: #d4856a; color: #000; transition: background-color 0.3s ease;', 
-          onmouseover: "this.style.backgroundColor='#e0c04e'; this.style.color='#fff';", 
-          onmouseout: "this.style.backgroundColor='#d4856a'; this.style.color='#000';" 
-        %>
-
-        <%= f.submit "Emprender vuelo", 
-          id: 'registerButton', 
-          class: 'btn rounded-pill', 
-          style: 'width: 150px; background-color: #82bb5d; color: #000; transition: background-color 0.3s ease;', 
-          onmouseover: "this.style.backgroundColor='#6ca45f'; this.style.color='#fff';", 
-          onmouseout: "this.style.backgroundColor='#82bb5d'; this.style.color='#000';" 
-        %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>
 
