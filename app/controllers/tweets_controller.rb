@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
     def create
       @tweet = current_user.tweets.new(tweet_params)
       if @tweet.save
-        redirect_to root_path, notice: 'Tweet creado exitosamente'
+        redirect_to root_path, notice: 'Quack creado exitosamente'
       else
         render :new
       end
@@ -38,7 +38,7 @@ class TweetsController < ApplicationController
     # PATCH/PUT /tweets/:id
     def update
       if @tweet.update(tweet_params)
-        redirect_to @tweet, notice: 'Tweet actualizado con éxito.'
+        redirect_to @tweet, notice: 'Quack actualizado con éxito.'
       else
         flash.now[:alert] = 'Hubo un problema al actualizar el tweet.'
         render :edit
@@ -49,7 +49,7 @@ class TweetsController < ApplicationController
     def destroy
       @tweet.destroy
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Tweet eliminado exitosamente.' }
+        format.html { redirect_to root_path, notice: 'Quack eliminado exitosamente.' }
         format.json { head :no_content }
       end
     end
