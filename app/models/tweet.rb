@@ -1,8 +1,8 @@
 # app/models/tweet.rb
 class Tweet < ApplicationRecord
     belongs_to :user
-    has_many :user_tweet_reactions
-    has_many :comments
+    has_many :user_tweet_reactions, dependent: :destroy
+    has_many :comments, dependent: :destroy
     has_many :tags, dependent: :destroy
     has_many :hashtags, through: :tags
     has_many :reacting_users, through: :user_tweet_reactions, source: :user
