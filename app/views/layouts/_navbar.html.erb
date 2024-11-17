@@ -30,13 +30,15 @@
     </ul>
     
     <!-- Logout Button at the Bottom -->
-    <!-- Logout Button at the Bottom -->
     <div class="logout-section mt-auto" style="margin-bottom: 70px;">
-      <%= link_to destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center logout-button' do %>
+      <button class="btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center logout-button">
         <i class="bi bi-box-arrow-right"></i>
         <span class="ms-2 sidebar-text">Sign out</span>
-      <% end %>
+      </button>
     </div>
+
+    <audio id="logoutSound" src="/sounds/logout.mp3"></audio>
+
 
   </div>
 
@@ -44,6 +46,57 @@
   <div id="content" class="flex-grow-1 p-4">
   </div>
 </div>
+
+
+<script>
+document.addEventListener("turbo:load", function () {
+  const logoutButton = document.querySelector(".logout-button"); // Selecciona el botón de logout
+  const logoutSound = document.getElementById("logoutSound");
+
+  if (logoutButton && logoutSound) {
+    logoutButton.addEventListener("click", function () {
+      // Reproducir el sonido
+      logoutSound.play().then(() => {
+        // Enviar la solicitud de logout después del sonido
+        setTimeout(() => {
+          performLogout(); // Función para enviar la solicitud
+        }, 1000); // Ajusta según la duración del sonido
+      }).catch((err) => {
+        console.error("Error al reproducir el sonido:", err);
+        performLogout(); // Realiza el logout de inmediato si hay un error
+      });
+    });
+  }
+
+  function performLogout() {
+    // Crear un formulario dinámico para el logout
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/users/sign_out";
+
+    // Agregar token CSRF
+    const csrfToken = document.querySelector("meta[name='csrf-token']").content;
+    const csrfInput = document.createElement("input");
+    csrfInput.type = "hidden";
+    csrfInput.name = "authenticity_token";
+    csrfInput.value = csrfToken;
+
+    form.appendChild(csrfInput);
+
+    // Agregar el método DELETE
+    const methodInput = document.createElement("input");
+    methodInput.type = "hidden";
+    methodInput.name = "_method";
+    methodInput.value = "delete";
+
+    form.appendChild(methodInput);
+
+    // Agregar el formulario al cuerpo y enviarlo
+    document.body.appendChild(form);
+    form.submit();
+  }
+});
+</script>
 
 
 <style>
