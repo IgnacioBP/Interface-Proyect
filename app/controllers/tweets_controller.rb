@@ -48,7 +48,10 @@ class TweetsController < ApplicationController
     # DELETE /tweets/:id
     def destroy
       @tweet.destroy
-      redirect_to tweets_path, notice: 'Tweet eliminado con éxito.'
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: 'Tweet eliminado exitosamente.' }
+        format.json { head :no_content }
+      end
     end
 
     def react
@@ -87,6 +90,12 @@ class TweetsController < ApplicationController
     # Strong parameters for tweets
     def tweet_params
       params.require(:tweet).permit(:body, :hashtags)
+    end
+
+    def authorize_user!
+      unless @tweet.user == current_user
+        redirect_to tweets_path, alert: 'No tienes permiso para realizar esta acción.'
+      end
     end
   end
   

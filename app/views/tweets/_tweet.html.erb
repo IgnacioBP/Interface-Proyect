@@ -11,7 +11,7 @@
   <div class="card-body">
     <p class="card-text"><%= tweet.body %></p>
 
-    <% if tweet.hashtags.any? %>
+    <% if tweet.hashtags&.any? %>
       <!-- Tags (Hashtags) -->
       <p class="card-text">
         <% tweet.hashtags.each do |hashtag| %>

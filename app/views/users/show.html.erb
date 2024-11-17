@@ -2,6 +2,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <div class="container">
@@ -20,6 +22,17 @@
                     <%= link_to tweet.user.full_name, user_path(tweet.user.id), class: "text-decoration-none text-dark" %>
                   </h5>
                   <small class="text-muted"><%= tweet.creation_date %></small>
+                  <!-- Botón de eliminar solo para el current_user -->
+                  <% if tweet.user == current_user %>
+                    <div class="delete-button-container">
+                      <%= form_with(model: tweet, method: :delete, local: true, data: { confirm: '¿Estás seguro de que deseas eliminar este quack?' }) do %>
+                        <button type="submit" class="btn btn-danger btn-sm">
+                          <i class="bi bi-trash-fill"></i>
+                        </button>
+                      <% end %>
+                    </div>
+                  <% end %>
+
                 </div>
               </div>
               <p class="card-text mt-3"><%= tweet.body %></p>
@@ -66,6 +79,17 @@
 </div>
 
 <script>
+  document.addEventListener('turbo:load', () => {
+    document.querySelectorAll('form[data-confirm]').forEach(form => {
+      form.addEventListener('submit', event => {
+        const confirmMessage = form.dataset.confirm;
+        if (!confirm(confirmMessage)) {
+          event.preventDefault(); // Detener el envío si no se confirma
+        }
+      });
+    });
+  });
+
   document.addEventListener('turbo:load', () => {
    
     // Ruta del archivo de sonido
@@ -218,4 +242,25 @@
     transform: scale(1.1);
     background-color: #4a148c;
   }
-</style>
+  /* Posiciona el botón de eliminar en la esquina superior derecha */
+  .delete-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .delete-button-container .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+  }
+
+  .delete-button-container .btn i {
+    font-size: 16px; /* Tamaño del ícono */
+    vertical-align: middle;
+  }
+
+  
+  </style>
+  
+
